@@ -1,9 +1,11 @@
 package com.edusocrates.cursoMC.controller;
 
+import com.edusocrates.cursoMC.DTO.CategoriaDTO;
 import com.edusocrates.cursoMC.model.Categoria;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.edusocrates.cursoMC.serivce.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +14,13 @@ import java.util.List;
 @RequestMapping(value = "/categorias")
 public class CategoriaController {
 
-    @GetMapping
-    public List<Categoria> listar(){
-        Categoria categoria = new Categoria(1,"informatica");
-        Categoria categoria2 = new Categoria(2,"Escritorio");
+    @Autowired
+    private CategoriaService service;
 
-        List<Categoria> list = new ArrayList<>();
-        list.add(categoria);
-        list.add(categoria2);
-        return list;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCategoriaById(@PathVariable Integer id){
+        Categoria categoria = service.getCategoriaById(id);
+        return ResponseEntity.ok(categoria);
     }
 }
