@@ -1,6 +1,7 @@
 package com.edusocrates.cursoMC.model;
 
 import com.edusocrates.cursoMC.model.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class Cliente implements Serializable {
 
     private Integer tipo;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
 
