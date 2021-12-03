@@ -1,6 +1,7 @@
 package com.edusocrates.cursoMC.serivce.impl;
 
 import com.edusocrates.cursoMC.DTO.CategoriaDTO;
+import com.edusocrates.cursoMC.exception.ObjectNotFoundException;
 import com.edusocrates.cursoMC.model.Categoria;
 import com.edusocrates.cursoMC.repository.CategoriaRepository;
 import com.edusocrates.cursoMC.serivce.CategoriaService;
@@ -23,6 +24,8 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
     private Categoria findById(Integer categoriaId) {
             return repository.findById(categoriaId)
-                    .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                    .orElseThrow(()->
+                            new ObjectNotFoundException("Objeto não encontrado! Id: "+categoriaId
+                                    +" Tipo: "+ Categoria.class.getName()));
         }
 }
