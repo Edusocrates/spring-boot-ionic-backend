@@ -1,5 +1,7 @@
 package com.edusocrates.cursoMC.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -10,6 +12,7 @@ public class ItemPedido implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 
+    @JsonIgnore
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
 
@@ -48,6 +51,7 @@ public class ItemPedido implements Serializable {
     public void setPreco(Double preco) {
         this.preco = preco;
     }
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }

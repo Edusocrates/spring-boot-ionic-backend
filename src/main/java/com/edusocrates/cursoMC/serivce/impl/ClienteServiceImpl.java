@@ -24,6 +24,6 @@ public class ClienteServiceImpl implements ClienteService {
         return repository.findById(id)
                 .orElseThrow(()->
                         new ObjectNotFoundException("Objeto não encontrado! Id: "+id
-                                +" Tipo: "+ Categoria.class.getName()));
+                                +" Tipo: "+ Cliente.class.getName()));
     }
 }
