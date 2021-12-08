@@ -5,4 +5,6 @@ import com.edusocrates.cursoMC.model.Categoria;
 
 public interface CategoriaService {
     Categoria getCategoriaById(Integer categoriaId);
+
+    Categoria insertCategoria(Categoria categoria);
 }

@@ -6,7 +6,9 @@ import com.edusocrates.cursoMC.serivce.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,5 +24,13 @@ public class CategoriaController {
     public ResponseEntity<?> getCategoriaById(@PathVariable Integer id){
         Categoria categoria = service.getCategoriaById(id);
         return ResponseEntity.ok(categoria);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> insertCategoria(@RequestBody Categoria categoria){
+        Categoria novaCategoria = service.insertCategoria(categoria);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(novaCategoria.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 }

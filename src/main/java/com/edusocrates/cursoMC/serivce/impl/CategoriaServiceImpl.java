@@ -22,6 +22,13 @@ public class CategoriaServiceImpl implements CategoriaService {
         Categoria categoria = findById(id);
         return categoria;
     }
+
+    @Override
+    public Categoria insertCategoria(Categoria categoria) {
+        categoria.setId(null);
+        return repository.save(categoria);
+    }
+
     private Categoria findById(Integer categoriaId) {
             return repository.findById(categoriaId)
                     .orElseThrow(()->
