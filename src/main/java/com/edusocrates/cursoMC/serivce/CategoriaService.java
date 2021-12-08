@@ -7,4 +7,6 @@ public interface CategoriaService {
     Categoria getCategoriaById(Integer categoriaId);
 
     Categoria insertCategoria(Categoria categoria);
+
+    Categoria updateCategoria(Integer id, Categoria requestCategoria);
 }

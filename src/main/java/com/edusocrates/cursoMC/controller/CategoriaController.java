@@ -33,4 +33,11 @@ public class CategoriaController {
                 .path("/{id}").buildAndExpand(novaCategoria.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCategoria(@PathVariable Integer id,
+                                             @RequestBody Categoria requestCategoria){
+        Categoria updatedCategoria = service.updateCategoria(id,requestCategoria);
+        return ResponseEntity.ok(updatedCategoria);
+
+    }
 }
