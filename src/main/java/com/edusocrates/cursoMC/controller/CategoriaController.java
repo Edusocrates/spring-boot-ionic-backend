@@ -4,6 +4,7 @@ import com.edusocrates.cursoMC.DTO.CategoriaDTO;
 import com.edusocrates.cursoMC.model.Categoria;
 import com.edusocrates.cursoMC.serivce.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,6 +32,15 @@ public class CategoriaController {
         List<Categoria> categoriaList = service.getAllCategorias();
         List<CategoriaDTO> categoriaDTOList = categoriaList
                 .stream().map(categoria -> new CategoriaDTO(categoria)).collect(Collectors.toList());
+        return ResponseEntity.ok(categoriaDTOList);
+    }
+    @GetMapping("/page")
+    public ResponseEntity<Page<CategoriaDTO>> getAllCategoriasWithPagination(@RequestParam(name = "page",defaultValue = "0") Integer page,
+                                                                             @RequestParam(name = "lines",defaultValue = "24") Integer linesPerPage,
+                                                                             @RequestParam(name = "order",defaultValue = "nome") String orderBy,
+                                                                             @RequestParam(name = "direction",defaultValue = "ASC") String direction){
+        Page<Categoria> categoriaList = service.findAllWithPagenation(page,linesPerPage,orderBy,direction);
+        Page<CategoriaDTO> categoriaDTOList = categoriaList.map(categoria -> new CategoriaDTO(categoria));
         return ResponseEntity.ok(categoriaDTOList);
     }
 
