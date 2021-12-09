@@ -11,7 +11,7 @@ public interface CategoriaService {
 
     CategoriaDTO insertCategoria(CategoriaDTO categoriaDTO);
 
-    Categoria updateCategoria(Integer id, Categoria requestCategoria);
+    CategoriaDTO updateCategoria(Integer id, CategoriaDTO categoriaDTO);
 
     void deleteCategoria(Integer id);
 

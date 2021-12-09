@@ -41,11 +41,12 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Categoria updateCategoria(Integer id, Categoria requestCategoria) {
+    public CategoriaDTO updateCategoria(Integer id, CategoriaDTO categoriaDTO) {
         Categoria categoriaBase = findById(id);
-        BeanUtils.copyProperties(requestCategoria,categoriaBase);//realiza a copia do objeto para atualizar
-        Categoria savedCategoria = repository.save(categoriaBase);
-        return savedCategoria;
+        categoriaDTO.setId(id);
+        BeanUtils.copyProperties(categoriaDTO,categoriaBase);//realiza a copia do objeto para atualizar
+        Categoria updatedCategoria = repository.save(categoriaBase);
+        return new CategoriaDTO(updatedCategoria);
     }
 
     @Override
