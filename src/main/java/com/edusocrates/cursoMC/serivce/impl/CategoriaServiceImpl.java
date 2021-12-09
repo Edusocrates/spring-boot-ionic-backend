@@ -1,12 +1,14 @@
 package com.edusocrates.cursoMC.serivce.impl;
 
 import com.edusocrates.cursoMC.DTO.CategoriaDTO;
+import com.edusocrates.cursoMC.exception.DataIntegrityException;
 import com.edusocrates.cursoMC.exception.ObjectNotFoundException;
 import com.edusocrates.cursoMC.model.Categoria;
 import com.edusocrates.cursoMC.repository.CategoriaRepository;
 import com.edusocrates.cursoMC.serivce.CategoriaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,7 +43,12 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public void deleteCategoria(Integer id) {
         findById(id);
-        repository.deleteById(id);
+        try{
+            repository.deleteById(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos!!");
+        }
+
 
     }
 
