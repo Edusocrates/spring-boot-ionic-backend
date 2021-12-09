@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -24,6 +25,13 @@ public class CategoriaController {
     public ResponseEntity<?> getCategoriaById(@PathVariable Integer id){
         Categoria categoria = service.getCategoriaById(id);
         return ResponseEntity.ok(categoria);
+    }
+    @GetMapping
+    public ResponseEntity<List<CategoriaDTO>> getAllCategorias(){
+        List<Categoria> categoriaList = service.getAllCategorias();
+        List<CategoriaDTO> categoriaDTOList = categoriaList
+                .stream().map(categoria -> new CategoriaDTO(categoria)).collect(Collectors.toList());
+        return ResponseEntity.ok(categoriaDTOList);
     }
 
     @PostMapping

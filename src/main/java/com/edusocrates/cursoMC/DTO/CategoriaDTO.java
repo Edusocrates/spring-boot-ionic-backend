@@ -11,7 +11,7 @@ public class CategoriaDTO {
 
     private Integer id;
     private String nome;
-    private List<Produto> produtos = new ArrayList<>();
+
 
     public Integer getId() {
         return id;
@@ -29,17 +29,13 @@ public class CategoriaDTO {
         this.nome = nome;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
-
     public CategoriaDTO(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
+    }
+    public CategoriaDTO(Categoria categoria) {
+        this.id = categoria.getId();
+        this.nome = categoria.getNome();
     }
 
     public CategoriaDTO() {

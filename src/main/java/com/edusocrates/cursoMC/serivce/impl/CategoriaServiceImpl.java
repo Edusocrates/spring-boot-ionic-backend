@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
@@ -50,6 +52,12 @@ public class CategoriaServiceImpl implements CategoriaService {
         }
 
 
+    }
+
+    @Override
+    public List<Categoria> getAllCategorias() {
+        List<Categoria> categoriaList = repository.findAll();
+        return categoriaList;
     }
 
     private Categoria findById(Integer categoriaId) {
