@@ -40,4 +40,9 @@ public class CategoriaController {
         return ResponseEntity.ok(updatedCategoria);
 
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategoria(@PathVariable Integer id){
+            service.deleteCategoria(id);
+        return ResponseEntity.ok(null);
+    }
 }

@@ -38,6 +38,13 @@ public class CategoriaServiceImpl implements CategoriaService {
         return savedCategoria;
     }
 
+    @Override
+    public void deleteCategoria(Integer id) {
+        findById(id);
+        repository.deleteById(id);
+
+    }
+
     private Categoria findById(Integer categoriaId) {
             return repository.findById(categoriaId)
                     .orElseThrow(()->
