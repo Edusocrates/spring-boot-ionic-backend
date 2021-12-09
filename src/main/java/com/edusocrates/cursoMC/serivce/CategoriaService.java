@@ -9,7 +9,7 @@ import java.util.List;
 public interface CategoriaService {
     Categoria getCategoriaById(Integer categoriaId);
 
-    Categoria insertCategoria(Categoria categoria);
+    CategoriaDTO insertCategoria(CategoriaDTO categoriaDTO);
 
     Categoria updateCategoria(Integer id, Categoria requestCategoria);
 

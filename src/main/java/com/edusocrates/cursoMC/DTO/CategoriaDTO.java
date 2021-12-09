@@ -1,10 +1,6 @@
 package com.edusocrates.cursoMC.DTO;
 
 import com.edusocrates.cursoMC.model.Categoria;
-import com.edusocrates.cursoMC.model.Produto;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class CategoriaDTO {

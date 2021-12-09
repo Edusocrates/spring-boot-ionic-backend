@@ -45,8 +45,8 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insertCategoria(@RequestBody Categoria categoria){
-        Categoria novaCategoria = service.insertCategoria(categoria);
+    public ResponseEntity<?> insertCategoria(@RequestBody CategoriaDTO categoriaDTO){
+        CategoriaDTO novaCategoria = service.insertCategoria(categoriaDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(novaCategoria.getId()).toUri();
         return ResponseEntity.created(uri).build();

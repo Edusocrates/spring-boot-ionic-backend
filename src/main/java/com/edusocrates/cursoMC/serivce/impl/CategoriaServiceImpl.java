@@ -32,9 +32,12 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Categoria insertCategoria(Categoria categoria) {
-        categoria.setId(null);
-        return repository.save(categoria);
+    public CategoriaDTO insertCategoria(CategoriaDTO categoriaDTO) {
+        categoriaDTO.setId(null);
+        Categoria categoria = new Categoria();
+        categoria.setNome(categoriaDTO.getNome());
+        Categoria savedCategoria = repository.save(categoria);
+        return new CategoriaDTO(savedCategoria);
     }
 
     @Override
