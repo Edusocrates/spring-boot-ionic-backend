@@ -1,12 +1,16 @@
 package com.edusocrates.cursoMC.controller;
 
 import com.edusocrates.cursoMC.DTO.ClienteDTO;
+import com.edusocrates.cursoMC.DTO.CreateClienteDTO;
 import com.edusocrates.cursoMC.model.Cliente;
 import com.edusocrates.cursoMC.serivce.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/clientes")
@@ -30,6 +34,14 @@ public class ClienteController {
         Page<Cliente> clienteList = service.findAllWithPagenation(page, linesPerPage, orderBy, direction);
         Page<ClienteDTO> clienteDTOList = clienteList.map(cliente -> new ClienteDTO(cliente));
         return ResponseEntity.ok(clienteDTOList);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> insertCliente(@RequestBody CreateClienteDTO createClienteDTO){
+        ClienteDTO clienteDTO = service.insertCliente(createClienteDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                        .path("/{id}").buildAndExpand(clienteDTO.getId()).toUri();
+                return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
