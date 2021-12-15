@@ -19,12 +19,15 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Column(name = "email",nullable = false,unique = true)
     private String email;
-
+    @Column(name = "cpfOuCnpj",nullable = false,unique = true)
     private String  cpfOuCnpj;
 
+    @Column(name = "tipo", nullable = false)
     private Integer tipo;
 
 
