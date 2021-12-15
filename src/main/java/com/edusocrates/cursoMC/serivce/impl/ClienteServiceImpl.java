@@ -48,7 +48,7 @@ public class ClienteServiceImpl implements ClienteService {
         try{
             repository.deleteById(id);
         }catch (DataIntegrityViolationException e){
-            throw new DataIntegrityException("Não é possivel excluir um cliente que possui amarracoes!!");
+            throw new DataIntegrityException("Não é possivel excluir um cliente que possui pedidos!!");
         }
 
     }
