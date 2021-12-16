@@ -12,7 +12,7 @@ public interface ClienteService {
 
     void deleteCliente(Integer id);
 
-    ClienteDTO updateCliente(Integer id, ClienteDTO clienteDTO);
+    ClienteDTO updateCliente(Integer id, CreateClienteDTO createClienteDTO);
 
     ClienteDTO insertCliente(CreateClienteDTO createClienteDTO);
 }

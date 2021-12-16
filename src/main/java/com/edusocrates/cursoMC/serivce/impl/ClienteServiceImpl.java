@@ -54,13 +54,13 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public ClienteDTO updateCliente(Integer id, ClienteDTO clienteDTO) {
+    public ClienteDTO updateCliente(Integer id, CreateClienteDTO createClienteDTO) {
         Cliente clienteBase = findById(id);
-        clienteDTO.setId(id);
-        if(clienteDTO.getEmail() == null || clienteDTO.getEmail().isEmpty()){
-            clienteDTO.setEmail(clienteBase.getEmail());
+        String validEmail = repository.findByEmail(createClienteDTO.getEmail());
+        if(!validEmail.isEmpty()){
+            throw new DataIntegrityException("email já existente na base!");
         }
-        BeanUtils.copyProperties(clienteDTO,clienteBase);
+        BeanUtils.copyProperties(createClienteDTO,clienteBase);
         Cliente updatedCliente = repository.save(clienteBase);
         return new ClienteDTO(updatedCliente);
     }
