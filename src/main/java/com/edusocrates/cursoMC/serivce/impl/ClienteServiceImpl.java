@@ -71,6 +71,10 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setNome(createClienteDTO.getNome());
         cliente.setTipo(createClienteDTO.getTipo());
         cliente.setCpfOuCnpj(createClienteDTO.getCpfOuCnpj());
+        String validEmail = repository.findByEmail(createClienteDTO.getEmail());
+        if(!validEmail.isEmpty()){
+            throw new DataIntegrityException("email já existente na base!");
+        }
         cliente.setEmail(createClienteDTO.getEmail());
 
         Cidade cidade = new Cidade();
