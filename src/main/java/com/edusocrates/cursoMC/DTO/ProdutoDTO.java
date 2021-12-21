@@ -58,7 +58,6 @@ public class ProdutoDTO {
         this.id = produto.getId();
         this.nome = produto.getNome();
         this.preco = produto.getPreco();
-        this.categorias = produto.getCategorias();//verificar
     }
 
     public ProdutoDTO() {
