@@ -1,5 +1,6 @@
 package com.edusocrates.cursoMC.controller;
 
+import com.edusocrates.cursoMC.DTO.PedidoDTO;
 import com.edusocrates.cursoMC.model.Pedido;
 import com.edusocrates.cursoMC.serivce.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class PedidoController {
         Pedido pedido= service.getPedidoById(id);
         return ResponseEntity.ok(pedido);
     }
-    @PostMapping
-    public ResponseEntity<?> insertPedido(@RequestBody Pedido pedido){
-
+    @PostMapping("/novo")
+    public ResponseEntity<?> insertPedido( @RequestBody Pedido pedido){
+         pedido = service.insertPedido(pedido);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                                 .path("/{id}").buildAndExpand(pedido.getId()).toUri();
                         return ResponseEntity.created(uri).build();

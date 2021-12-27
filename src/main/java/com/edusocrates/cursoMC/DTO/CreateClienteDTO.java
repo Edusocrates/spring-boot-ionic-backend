@@ -1,12 +1,14 @@
 package com.edusocrates.cursoMC.DTO;
 
+import com.edusocrates.cursoMC.model.enums.TipoCliente;
+
 public class CreateClienteDTO {
 
 
     private String nome;
     private String email;
     private String  cpfOuCnpj;
-    private Integer tipo;
+    private TipoCliente tipo;
     private String logradouro;
     private String numero;
     private String complemento;
@@ -43,11 +45,11 @@ public class CreateClienteDTO {
         this.cpfOuCnpj = cpfOuCnpj;
     }
 
-    public Integer getTipo() {
+    public TipoCliente getTipo() {
         return tipo;
     }
 
-    public void setTipo(Integer tipo) {
+    public void setTipo(TipoCliente tipo) {
         this.tipo = tipo;
     }
 
@@ -123,7 +125,7 @@ public class CreateClienteDTO {
         this.cidadeId = cidadeId;
     }
 
-    public CreateClienteDTO(String nome, String email, String cpfOuCnpj, Integer tipo, String logradouro, String numero, String complemento, String bairro, String cep, String telefone, String telefone2, String telefone3, Integer cidadeId) {
+    public CreateClienteDTO(String nome, String email, String cpfOuCnpj, TipoCliente tipo, String logradouro, String numero, String complemento, String bairro, String cep, String telefone, String telefone2, String telefone3, Integer cidadeId) {
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
