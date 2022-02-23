@@ -1,3 +1,6 @@
 spring:
   profiles:
-    active: "dev"
+    active: "test"
+
+#http://localhost/phpMyAdmin5/index:
+#  php?route=/server/sql&lang=pt_BR:

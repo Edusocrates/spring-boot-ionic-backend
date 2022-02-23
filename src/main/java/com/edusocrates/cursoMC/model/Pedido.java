@@ -117,4 +117,18 @@ public class Pedido implements Serializable {
          }
          return soma;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Pedido{");
+        sb.append("id=").append(id);
+        sb.append(", instante=").append(getInstante());
+        sb.append(", pagamento=").append(getPagamento().getEstado().getDescricao());
+        sb.append(", cliente=").append(getCliente().getNome());
+        sb.append(", enderecoDeEntrega=").append(enderecoDeEntrega);
+        sb.append(", itens=").append(itens);
+        sb.append(", Valor total= ").append(getValorTotal());
+        sb.append('}');
+        return sb.toString();
+    }
 }

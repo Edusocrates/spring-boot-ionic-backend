@@ -11,6 +11,7 @@ import com.edusocrates.cursoMC.repository.PagamentoRepository;
 import com.edusocrates.cursoMC.repository.PedidoRepository;
 import com.edusocrates.cursoMC.repository.ProdutoRepository;
 import com.edusocrates.cursoMC.serivce.BoletoService;
+import com.edusocrates.cursoMC.serivce.ClienteService;
 import com.edusocrates.cursoMC.serivce.PedidoService;
 import com.edusocrates.cursoMC.serivce.ProdutoService;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +39,9 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
+    @Autowired
+    private ClienteService clienteService;
+
     @Override
     public Pedido getPedidoById(Integer id) {
         Pedido pedido = findById(id);
@@ -48,6 +52,7 @@ public class PedidoServiceImpl implements PedidoService {
     public Pedido insertPedido(Pedido pedido) {
         pedido.setId(null);
         pedido.setInstante(new Date());
+        pedido.setCliente(clienteService.getClienteById(pedido.getCliente().getId()));
         pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         pedido.getPagamento().setPedido(pedido);
         if (pedido.getPagamento() instanceof PagamentoComBoleto){
@@ -62,6 +67,7 @@ public class PedidoServiceImpl implements PedidoService {
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
+        System.out.println(pedido.toString());
         return pedido;
     }
 

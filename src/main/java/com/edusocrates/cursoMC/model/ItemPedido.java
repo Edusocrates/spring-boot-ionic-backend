@@ -91,4 +91,13 @@ public class ItemPedido implements Serializable {
     public Double getSubTotal(){
         return (preco - desconto) * quantidade;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ItemPedido{");
+        sb.append("quantidade=").append(quantidade);
+        sb.append(", preco=").append(preco);
+        sb.append('}');
+        return sb.toString();
+    }
 }
