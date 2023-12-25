@@ -68,7 +68,7 @@ public class PedidoServiceImpl implements PedidoService {
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
-        emailService.sendOrderConfirmationEmail(pedido);
+        emailService.sendOrderConfirmationHTMLEmail(pedido);
         return pedido;
     }
 

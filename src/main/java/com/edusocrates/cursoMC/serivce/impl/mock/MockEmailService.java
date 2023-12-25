@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 
+import javax.mail.internet.MimeMessage;
+
 
 public class MockEmailService extends AbstractEmailServiceImpl {
 
@@ -17,6 +19,13 @@ public class MockEmailService extends AbstractEmailServiceImpl {
         logging.info(message.toString());
         logging.info("EMAIL ENVIADO COM SUCESSO!");
 
+    }
+
+    @Override
+    public void sendHTMLEmail(MimeMessage message) {
+        logging.info("Simulando envio de email HTML......");
+        logging.info(message.toString());
+        logging.info("EMAIL ENVIADO COM SUCESSO!");
     }
 
 

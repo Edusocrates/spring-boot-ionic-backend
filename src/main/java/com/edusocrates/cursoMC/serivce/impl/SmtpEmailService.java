@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
+import javax.mail.internet.MimeMessage;
 
 public class SmtpEmailService extends AbstractEmailServiceImpl {
 
@@ -14,6 +17,9 @@ public class SmtpEmailService extends AbstractEmailServiceImpl {
 
     @Autowired
     private MailSender mailSender;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
 
     @Override
@@ -25,6 +31,13 @@ public class SmtpEmailService extends AbstractEmailServiceImpl {
 
     }
 
+    @Override
+    public void sendHTMLEmail(MimeMessage message) {
+        logging.info("Simulando envio de email HTML......");
+        javaMailSender.send(message);
+        logging.info(message.toString());
+        logging.info("EMAIL ENVIADO COM SUCESSO!");
+    }
 
 
 }

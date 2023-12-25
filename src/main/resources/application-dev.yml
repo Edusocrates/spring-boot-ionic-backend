@@ -35,7 +35,7 @@ spring:
         smtp:
           auth: true
           socketFactory:
-            port: 465
+            port: 587
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
           starttls:
