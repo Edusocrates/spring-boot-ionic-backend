@@ -2,5 +2,12 @@ spring:
   profiles:
     active: "test"
 
+
+default:
+  sender: "edu5390@gmail.com"
+  recipient: "edu5390@gmail.com"
+
+
+
 #http://localhost/phpMyAdmin5/index:
-#  php?route=/server/sql&lang=pt_BR:
+#  php?route=/server/sql&lang=pt_BR:\

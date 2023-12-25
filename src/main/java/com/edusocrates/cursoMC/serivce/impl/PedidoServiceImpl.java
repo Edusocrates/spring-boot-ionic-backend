@@ -10,10 +10,7 @@ import com.edusocrates.cursoMC.repository.ItemPedidoRepository;
 import com.edusocrates.cursoMC.repository.PagamentoRepository;
 import com.edusocrates.cursoMC.repository.PedidoRepository;
 import com.edusocrates.cursoMC.repository.ProdutoRepository;
-import com.edusocrates.cursoMC.serivce.BoletoService;
-import com.edusocrates.cursoMC.serivce.ClienteService;
-import com.edusocrates.cursoMC.serivce.PedidoService;
-import com.edusocrates.cursoMC.serivce.ProdutoService;
+import com.edusocrates.cursoMC.serivce.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +39,10 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private EmailService emailService;
+
+
     @Override
     public Pedido getPedidoById(Integer id) {
         Pedido pedido = findById(id);
@@ -67,7 +68,7 @@ public class PedidoServiceImpl implements PedidoService {
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
-        System.out.println(pedido.toString());
+        emailService.sendOrderConfirmationEmail(pedido);
         return pedido;
     }
 
