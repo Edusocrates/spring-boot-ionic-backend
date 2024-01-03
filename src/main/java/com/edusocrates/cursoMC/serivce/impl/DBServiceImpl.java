@@ -2,6 +2,7 @@ package com.edusocrates.cursoMC.serivce.impl;
 
 import com.edusocrates.cursoMC.model.*;
 import com.edusocrates.cursoMC.model.enums.EstadoPagamento;
+import com.edusocrates.cursoMC.model.enums.Perfil;
 import com.edusocrates.cursoMC.model.enums.TipoCliente;
 import com.edusocrates.cursoMC.repository.*;
 import com.edusocrates.cursoMC.serivce.DBService;
@@ -110,13 +111,21 @@ public class DBServiceImpl implements DBService {
 
         Cliente cliente = new Cliente(null,"Maria Silva","edu5390@gmail.com","36378912377", TipoCliente.PESSOAFISICA, pe.encode("testeSenha"));
         cliente.getTelefones().addAll(Arrays.asList("8094328423","7542394281"));
+
+        Cliente cliente2 = new Cliente(null,"Ana  Costa","educaria5390@gmail.com","51279253037", TipoCliente.PESSOAFISICA, pe.encode("testeSenha"));
+        cliente2.getTelefones().addAll(Arrays.asList("8094328423","7542394281"));
+        cliente2.addPerfil(Perfil.ADMIN);
+
+
         Endereco endereco = new Endereco(null,"Rua flores", "300","Apartamento 3","Jardim","3822090",cliente,cidade);
         Endereco endereco2 = new Endereco(null,"Avenida Matos", "105","Sala 800","Centro","43191832",cliente,cidade2);
+        Endereco endereco3 = new Endereco(null,"Avenida Teste", "105","Sala 800","Centro","43191832",cliente,cidade2);
 
         cliente.getEnderecos().addAll(Arrays.asList(endereco,endereco2));
+        cliente2.getEnderecos().addAll(Arrays.asList(endereco,endereco3));
 
-        clienteRepository.saveAll(Arrays.asList(cliente));
-        enderecoRepository.saveAll(Arrays.asList(endereco,endereco2));
+        clienteRepository.saveAll(Arrays.asList(cliente,cliente2));
+        enderecoRepository.saveAll(Arrays.asList(endereco,endereco2, endereco3));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Pedido pedido = new Pedido(null,sdf.parse("30/09/2017 10:32"),cliente,endereco);

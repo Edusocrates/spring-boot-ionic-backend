@@ -3,6 +3,7 @@ package com.edusocrates.cursoMC.model;
 import com.edusocrates.cursoMC.DTO.ClienteDTO;
 import com.edusocrates.cursoMC.DTO.CreateClienteDTO;
 import com.edusocrates.cursoMC.exception.DataIntegrityException;
+import com.edusocrates.cursoMC.model.enums.Perfil;
 import com.edusocrates.cursoMC.model.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "CLIENTE")
@@ -43,6 +45,11 @@ public class Cliente implements Serializable {
     @ElementCollection
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)//eager serve para buscar os perfis juntos pára garantir sempre que buscar o cliente, trazer o perfil
+    @CollectionTable(name = "PERFIS")
+    private Set<Integer>  perfis = new HashSet<>();
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
@@ -98,6 +105,16 @@ public class Cliente implements Serializable {
     }
 
 
+    public Set<Perfil> getPerfis() {
+        //pega o perfil inserido e transforma no codigo do perfil
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil){
+        //salva o codigo do perfil
+        perfis.add(perfil.getCodigo());
+    }
+
     public List<Endereco> getEnderecos() {
         return enderecos;
     }
@@ -133,9 +150,11 @@ public class Cliente implements Serializable {
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipo = tipo;
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);//transforma todos os clientes com o perfil padrão de cliente
     }
 
     public Cliente() {
+        addPerfil(Perfil.CLIENTE);//transforma todos os clientes com o perfil padrão de cliente
     }
 
     @Override
