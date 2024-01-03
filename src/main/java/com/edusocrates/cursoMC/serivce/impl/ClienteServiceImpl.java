@@ -17,15 +17,20 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     private ClienteRepository repository;
+
+    @Autowired
+    private BCryptPasswordEncoder pe;
 
     @Autowired
     private EnderecoRepository enderecoRepository;
@@ -67,41 +72,16 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO insertCliente(CreateClienteDTO createClienteDTO) {
-        Cliente cliente = new Cliente();
-        cliente.setNome(createClienteDTO.getNome());
-        cliente.setTipo(createClienteDTO.getTipo());
-        cliente.setCpfOuCnpj(createClienteDTO.getCpfOuCnpj());
         String validEmail = repository.findByEmail(createClienteDTO.getEmail());
         if(validEmail != null){
             throw new DataIntegrityException("email já existente na base!");
         }
-        cliente.setEmail(createClienteDTO.getEmail());
-
-        Cidade cidade = new Cidade();
-        cidade.setId(createClienteDTO.getCidadeId());
-
-        Endereco endereco = new Endereco();
-        endereco.setCliente(cliente);
-        endereco.setBairro(createClienteDTO.getBairro());
-        endereco.setCep(createClienteDTO.getCep());
-        endereco.setComplemento(createClienteDTO.getComplemento());
-        endereco.setLogradouro(createClienteDTO.getLogradouro());
-        endereco.setNumero(createClienteDTO.getNumero());
-        endereco.setCidade(cidade);
-
-
-        cliente.getEnderecos().add(endereco);
-
-
-        cliente.getTelefones().add(createClienteDTO.getTelefone());
-        if(createClienteDTO.getTelefone2() != null){
-            cliente.getTelefones().add(createClienteDTO.getTelefone2());
-        }
-        if(createClienteDTO.getTelefone3() != null){
-            cliente.getTelefones().add(createClienteDTO.getTelefone3());
-        }
+        Cliente cliente = new Cliente();
+        //seta a sennha criptografada que o cliente digitou
+        createClienteDTO.setSenha(pe.encode(createClienteDTO.getSenha()));
+        cliente = cliente.fromDto(createClienteDTO);
         Cliente savedCliente = repository.save(cliente);
-        enderecoRepository.save(endereco);
+        enderecoRepository.save(cliente.getEnderecos().get(0));
         return new ClienteDTO(savedCliente);
     }
 
@@ -111,4 +91,16 @@ public class ClienteServiceImpl implements ClienteService {
                         new ObjectNotFoundException("Objeto não encontrado! Id: "+id
                                 +" Tipo: "+ Cliente.class.getName()));
     }
+
+    public List<Cliente> findAll(){
+        return repository.findAll();
+    }
+//não implementado pq precisa ajustar o Direction
+//    public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+//        PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction),orderBy);
+//        return repository.findAll(pageRequest);
+//    }
+
+
+
 }

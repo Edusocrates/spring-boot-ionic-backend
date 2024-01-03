@@ -9,6 +9,8 @@ public class CreateClienteDTO {
     private String email;
     private String  cpfOuCnpj;
     private TipoCliente tipo;
+
+    private String senha;
     private String logradouro;
     private String numero;
     private String complemento;
@@ -47,6 +49,14 @@ public class CreateClienteDTO {
 
     public TipoCliente getTipo() {
         return tipo;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public void setTipo(TipoCliente tipo) {

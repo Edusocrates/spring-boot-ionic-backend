@@ -1,5 +1,8 @@
 package com.edusocrates.cursoMC.model;
 
+import com.edusocrates.cursoMC.DTO.ClienteDTO;
+import com.edusocrates.cursoMC.DTO.CreateClienteDTO;
+import com.edusocrates.cursoMC.exception.DataIntegrityException;
 import com.edusocrates.cursoMC.model.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,6 +34,8 @@ public class Cliente implements Serializable {
     @Enumerated
     private TipoCliente tipo;
 
+    @JsonIgnore
+    private String senha;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
@@ -84,6 +89,15 @@ public class Cliente implements Serializable {
         this.tipo = tipo;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+
     public List<Endereco> getEnderecos() {
         return enderecos;
     }
@@ -112,12 +126,13 @@ public class Cliente implements Serializable {
         this.pedidos = pedidos;
     }
 
-    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipo = tipo;
+        this.senha = senha;
     }
 
     public Cliente() {
@@ -135,4 +150,45 @@ public class Cliente implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+    public Cliente fromDto(CreateClienteDTO createClienteDTO) {
+        Cliente cliente = new Cliente();
+        cliente.setNome(createClienteDTO.getNome());
+        cliente.setTipo(createClienteDTO.getTipo());
+        cliente.setCpfOuCnpj(createClienteDTO.getCpfOuCnpj());
+        cliente.setEmail(createClienteDTO.getEmail());
+        //seta a senha que ja foi criptografada no clienteService
+        cliente.setSenha(createClienteDTO.getSenha());
+        Cidade cidade = new Cidade();
+        cidade.setId(createClienteDTO.getCidadeId());
+
+        Endereco endereco = new Endereco();
+        endereco.setCliente(cliente);
+        endereco.setBairro(createClienteDTO.getBairro());
+        endereco.setCep(createClienteDTO.getCep());
+        endereco.setComplemento(createClienteDTO.getComplemento());
+        endereco.setLogradouro(createClienteDTO.getLogradouro());
+        endereco.setNumero(createClienteDTO.getNumero());
+        endereco.setCidade(cidade);
+
+
+        cliente.getEnderecos().add(endereco);
+
+
+        cliente.getTelefones().add(createClienteDTO.getTelefone());
+        if(createClienteDTO.getTelefone2() != null){
+            cliente.getTelefones().add(createClienteDTO.getTelefone2());
+        }
+        if(createClienteDTO.getTelefone3() != null){
+            cliente.getTelefones().add(createClienteDTO.getTelefone3());
+        }
+        return cliente;
+    }
+
+    public Cliente fromDto(ClienteDTO clienteDTO){
+        return new Cliente(clienteDTO.getId(),clienteDTO.getNome(), clienteDTO.getEmail(), null, null,null);
+    }
+
+
+
 }

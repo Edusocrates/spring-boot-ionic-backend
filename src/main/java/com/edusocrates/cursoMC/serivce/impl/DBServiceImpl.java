@@ -6,6 +6,7 @@ import com.edusocrates.cursoMC.model.enums.TipoCliente;
 import com.edusocrates.cursoMC.repository.*;
 import com.edusocrates.cursoMC.serivce.DBService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -18,6 +19,10 @@ public class DBServiceImpl implements DBService {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+
+    @Autowired
+    private BCryptPasswordEncoder pe;
 
     @Autowired
     private ProdutoRepository produtoRepository;
@@ -103,7 +108,7 @@ public class DBServiceImpl implements DBService {
         estadoRepository.saveAll(Arrays.asList(estado,estado2));
         cidadeRepository.saveAll(Arrays.asList(cidade,cidade2,cidade3));
 
-        Cliente cliente = new Cliente(null,"Maria Silva","edu5390@gmail.com","36378912377", TipoCliente.PESSOAFISICA);
+        Cliente cliente = new Cliente(null,"Maria Silva","edu5390@gmail.com","36378912377", TipoCliente.PESSOAFISICA, pe.encode("testeSenha"));
         cliente.getTelefones().addAll(Arrays.asList("8094328423","7542394281"));
         Endereco endereco = new Endereco(null,"Rua flores", "300","Apartamento 3","Jardim","3822090",cliente,cidade);
         Endereco endereco2 = new Endereco(null,"Avenida Matos", "105","Sala 800","Centro","43191832",cliente,cidade2);
