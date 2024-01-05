@@ -7,7 +7,9 @@ default:
   sender: "edu5390@gmail.com"
   recipient: "edu5390@gmail.com"
 
-
+jwt:
+  secret: 123
+  expiration: 600000
 
 #http://localhost/phpMyAdmin5/index:
 #  php?route=/server/sql&lang=pt_BR:\
