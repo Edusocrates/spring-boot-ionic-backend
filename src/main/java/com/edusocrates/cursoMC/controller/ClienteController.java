@@ -7,6 +7,7 @@ import com.edusocrates.cursoMC.serivce.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,6 +28,7 @@ public class ClienteController {
     }
 
     @GetMapping("/page")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Page<ClienteDTO>> getAllCategoriasWithPagination(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                                                            @RequestParam(name = "lines", defaultValue = "24") Integer linesPerPage,
                                                                            @RequestParam(name = "order", defaultValue = "nome") String orderBy,
@@ -51,6 +53,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> deleteCategoria(@PathVariable Integer id) {
         service.deleteCliente(id);
         return ResponseEntity.ok(null);
