@@ -1,5 +1,6 @@
 package com.edusocrates.cursoMC.serivce;
 
+import com.edusocrates.cursoMC.model.Cliente;
 import com.edusocrates.cursoMC.model.Pedido;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -7,13 +8,15 @@ import javax.mail.internet.MimeMessage;
 
 public interface EmailService {
 
-    void sendOrderConfirmationEmail(Pedido pedido);
+    void enviaConfirmacaoPedidoEmail(Pedido pedido);
 
-    void sendEmail(SimpleMailMessage message);
+    void enviaEmail(SimpleMailMessage message);
 
 
-    void sendOrderConfirmationHTMLEmail(Pedido pedido);
+    void enviaConfirmacaoPedidoHTMLEmail(Pedido pedido);
 
-    void sendHTMLEmail(MimeMessage message);
+    void enviaHTMLEmail(MimeMessage message);
+
+    void enviaNovaSenhaPorEmail(Cliente cliente,String novaSenha);
 
 }

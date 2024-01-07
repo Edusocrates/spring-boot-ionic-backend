@@ -1,5 +1,6 @@
 package com.edusocrates.cursoMC.serivce.impl;
 
+import com.edusocrates.cursoMC.model.Cliente;
 import com.edusocrates.cursoMC.model.Pedido;
 import com.edusocrates.cursoMC.serivce.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,9 @@ public abstract class AbstractEmailServiceImpl implements EmailService {
 
 
     @Override
-    public void sendOrderConfirmationEmail(Pedido pedido) {
+    public void enviaConfirmacaoPedidoEmail(Pedido pedido) {
         SimpleMailMessage sm = prepareSimpleMailMessageFromPedido(pedido);
-        sendEmail(sm);
+        enviaEmail(sm);
     }
 
     protected SimpleMailMessage prepareSimpleMailMessageFromPedido(Pedido pedido) {
@@ -47,17 +48,17 @@ public abstract class AbstractEmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendEmail(SimpleMailMessage message) {
+    public void enviaEmail(SimpleMailMessage message) {
 
     }
 
     @Override
-    public void sendOrderConfirmationHTMLEmail(Pedido pedido) {
+    public void enviaConfirmacaoPedidoHTMLEmail(Pedido pedido) {
         try {
             MimeMessage mm  = prepareMimeMessageFromPedido(pedido);
-            sendHTMLEmail(mm);
+            enviaHTMLEmail(mm);
         } catch (MessagingException e) {
-            sendOrderConfirmationEmail(pedido);
+            enviaConfirmacaoPedidoEmail(pedido);
         }
     }
 
@@ -79,5 +80,20 @@ public abstract class AbstractEmailServiceImpl implements EmailService {
         return templateEngine.process("email/confirmacaoPedido",context);
     }
 
+    @Override
+    public void enviaNovaSenhaPorEmail(Cliente cliente, String novaSenha) {
+        SimpleMailMessage sm = prepareNovaSenhaEmail(cliente,novaSenha);
+        enviaEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNovaSenhaEmail(Cliente cliente, String novaSenha) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(cliente.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("Nova senha cadastrada! Senha: "+ novaSenha);
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Senha: "+novaSenha);
+        return sm;
+    }
 
 }

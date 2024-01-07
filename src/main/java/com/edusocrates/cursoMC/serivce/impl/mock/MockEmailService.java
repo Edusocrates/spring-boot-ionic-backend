@@ -14,7 +14,7 @@ public class MockEmailService extends AbstractEmailServiceImpl {
     private static final Logger logging = LoggerFactory.getLogger(MockEmailService.class);
 
     @Override
-    public void sendEmail(SimpleMailMessage message){
+    public void enviaEmail(SimpleMailMessage message){
         logging.info("Simulando envio de email......");
         logging.info(message.toString());
         logging.info("EMAIL ENVIADO COM SUCESSO!");
@@ -22,7 +22,7 @@ public class MockEmailService extends AbstractEmailServiceImpl {
     }
 
     @Override
-    public void sendHTMLEmail(MimeMessage message) {
+    public void enviaHTMLEmail(MimeMessage message) {
         logging.info("Simulando envio de email HTML......");
         logging.info(message.toString());
         logging.info("EMAIL ENVIADO COM SUCESSO!");

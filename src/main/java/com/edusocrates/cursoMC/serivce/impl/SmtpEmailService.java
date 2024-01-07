@@ -23,7 +23,7 @@ public class SmtpEmailService extends AbstractEmailServiceImpl {
 
 
     @Override
-    public void sendEmail(SimpleMailMessage message){
+    public void enviaEmail(SimpleMailMessage message){
         logging.info("Simulando envio de email......");
         mailSender.send(message);
         logging.info(message.toString());
@@ -32,7 +32,7 @@ public class SmtpEmailService extends AbstractEmailServiceImpl {
     }
 
     @Override
-    public void sendHTMLEmail(MimeMessage message) {
+    public void enviaHTMLEmail(MimeMessage message) {
         logging.info("Simulando envio de email HTML......");
         javaMailSender.send(message);
         logging.info(message.toString());
