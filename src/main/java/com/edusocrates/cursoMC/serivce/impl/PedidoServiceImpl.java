@@ -1,19 +1,20 @@
 package com.edusocrates.cursoMC.serivce.impl;
 
 import com.edusocrates.cursoMC.DTO.PedidoDTO;
+import com.edusocrates.cursoMC.Utils.exceptions.AuthorizationException;
 import com.edusocrates.cursoMC.exception.ObjectNotFoundException;
-import com.edusocrates.cursoMC.model.ItemPedido;
-import com.edusocrates.cursoMC.model.PagamentoComBoleto;
-import com.edusocrates.cursoMC.model.Pedido;
+import com.edusocrates.cursoMC.model.*;
 import com.edusocrates.cursoMC.model.enums.EstadoPagamento;
 import com.edusocrates.cursoMC.repository.ItemPedidoRepository;
 import com.edusocrates.cursoMC.repository.PagamentoRepository;
 import com.edusocrates.cursoMC.repository.PedidoRepository;
-import com.edusocrates.cursoMC.repository.ProdutoRepository;
+import com.edusocrates.cursoMC.security.UserSS;
 import com.edusocrates.cursoMC.serivce.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -78,6 +79,17 @@ public class PedidoServiceImpl implements PedidoService {
         BeanUtils.copyProperties(pedido,novoPedido);
         Pedido pedioNovo = repository.save(novoPedido);
         return new PedidoDTO(pedioNovo);
+    }
+
+    public Page<Pedido> findAllWithPagenation(Integer page, Integer linesPerPage,
+                                                 String orderBy, String direction){
+        UserSS user = UserService.authenticated();
+        if(user == null){
+            throw new AuthorizationException("Acesso negado ao usuario");
+        }
+        PageRequest pageRequest =  PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Cliente cliente = clienteService.getClienteById(user.getId());
+        return repository.findByCliente(cliente,pageRequest);
     }
 
 
