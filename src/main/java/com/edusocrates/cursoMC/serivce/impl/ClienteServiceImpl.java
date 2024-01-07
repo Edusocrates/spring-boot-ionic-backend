@@ -2,14 +2,17 @@ package com.edusocrates.cursoMC.serivce.impl;
 
 import com.edusocrates.cursoMC.DTO.ClienteDTO;
 import com.edusocrates.cursoMC.DTO.CreateClienteDTO;
+import com.edusocrates.cursoMC.Utils.exceptions.AuthorizationException;
 import com.edusocrates.cursoMC.exception.DataIntegrityException;
 import com.edusocrates.cursoMC.exception.ObjectNotFoundException;
 import com.edusocrates.cursoMC.model.Categoria;
 import com.edusocrates.cursoMC.model.Cidade;
 import com.edusocrates.cursoMC.model.Cliente;
 import com.edusocrates.cursoMC.model.Endereco;
+import com.edusocrates.cursoMC.model.enums.Perfil;
 import com.edusocrates.cursoMC.repository.ClienteRepository;
 import com.edusocrates.cursoMC.repository.EnderecoRepository;
+import com.edusocrates.cursoMC.security.UserSS;
 import com.edusocrates.cursoMC.serivce.ClienteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente getClienteById(Integer id) {
+        UserSS user = UserService.authenticated();
+        if(user == null || !user.hasHole(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado ao usuario!");
+        }
+
+
         Cliente cliente = findById(id);
         return cliente;
     }
