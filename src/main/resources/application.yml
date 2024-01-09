@@ -11,5 +11,13 @@ jwt:
   secret: 123
   expiration: 600000
 
+
+aws:
+  access_key_id: inserir_acces_key_id_daconta_aws_criada
+  secret_access_key:  inserir_secret_acces_key_id_daconta_aws_criada
+s3:
+  bucket: curso-spring-ionic
+  region: sa-east-1
+
 #http://localhost/phpMyAdmin5/index:
 #  php?route=/server/sql&lang=pt_BR:\
