@@ -11,18 +11,12 @@ import java.util.Arrays;
 public class CursoMcApplication implements CommandLineRunner {
 
 
-	//gerando arquivo para o s3 manualmente, sem endpoint.
-//	@Autowired
-//	private S3Service s3service;
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(CursoMcApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-	//s3service.uploadFile("c://teste/caminho/arquivo.txt");
 
 
 	}
