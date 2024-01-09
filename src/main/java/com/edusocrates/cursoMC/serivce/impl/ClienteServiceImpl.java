@@ -22,7 +22,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +40,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private S3Service s3Service;
 
     @Override
     public Cliente getClienteById(Integer id) {
@@ -92,6 +98,15 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente savedCliente = repository.save(cliente);
         enderecoRepository.save(cliente.getEnderecos().get(0));
         return new ClienteDTO(savedCliente);
+    }
+
+    @Override
+    public URI uploadFotoPerfil(MultipartFile multipartFile) {
+        try {
+            return s3Service.uploadFile(multipartFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Cliente findById(Integer id) {
