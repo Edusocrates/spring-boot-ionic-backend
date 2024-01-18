@@ -2,6 +2,7 @@ package com.edusocrates.cursoMC.exception;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.edusocrates.cursoMC.Utils.exceptions.AuthorizationException;
 import com.edusocrates.cursoMC.Utils.exceptions.FileException;
 import org.springframework.http.HttpStatus;
@@ -54,7 +55,12 @@ public class  ControllerExceptionHendler {
         StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
+    @ExceptionHandler(AmazonS3Exception.class)
+    public ResponseEntity<StandardError> amazons3(AmazonS3Exception e, HttpServletRequest request) {
 
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
 
 
 }
