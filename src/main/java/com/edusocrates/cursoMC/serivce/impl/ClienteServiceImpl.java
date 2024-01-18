@@ -3,6 +3,7 @@ package com.edusocrates.cursoMC.serivce.impl;
 import com.edusocrates.cursoMC.DTO.ClienteDTO;
 import com.edusocrates.cursoMC.DTO.CreateClienteDTO;
 import com.edusocrates.cursoMC.Utils.exceptions.AuthorizationException;
+import com.edusocrates.cursoMC.Utils.exceptions.FileException;
 import com.edusocrates.cursoMC.exception.DataIntegrityException;
 import com.edusocrates.cursoMC.exception.ObjectNotFoundException;
 import com.edusocrates.cursoMC.model.Categoria;
@@ -103,9 +104,17 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public URI uploadFotoPerfil(MultipartFile multipartFile) {
         try {
-            return s3Service.uploadFile(multipartFile);
+            UserSS user = UserService.authenticated();
+            if (user == null){
+                throw new AuthorizationException("Acesso negado ao usuario");
+            }
+            URI uri = s3Service.uploadFile(multipartFile);
+            Cliente cliente = findById(user.getId());
+            cliente.setImageUrl(uri.toString());
+            repository.save(cliente);
+            return uri;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileException(e.getMessage());
         }
     }
 
