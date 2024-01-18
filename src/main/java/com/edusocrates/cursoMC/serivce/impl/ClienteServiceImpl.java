@@ -17,6 +17,7 @@ import com.edusocrates.cursoMC.security.UserSS;
 import com.edusocrates.cursoMC.serivce.ClienteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
@@ -44,6 +46,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     private S3Service s3Service;
+
+    @Autowired
+    private ImageService imageService;
+
+    @Value("${img.prefix.client.profile}")
+    private String prefixo;
 
     @Override
     public Cliente getClienteById(Integer id) {
@@ -103,19 +111,15 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public URI uploadFotoPerfil(MultipartFile multipartFile) {
-        try {
             UserSS user = UserService.authenticated();
+
             if (user == null){
                 throw new AuthorizationException("Acesso negado ao usuario");
             }
-            URI uri = s3Service.uploadFile(multipartFile);
-            Cliente cliente = findById(user.getId());
-            cliente.setImageUrl(uri.toString());
-            repository.save(cliente);
-            return uri;
-        } catch (IOException e) {
-            throw new FileException(e.getMessage());
-        }
+
+            BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+            String nomeArquivo = prefixo + user.getId()+ ".jpg";
+            return s3Service.uploadFile(imageService.getInputStream(jpgImage,"jpg"),nomeArquivo,"image");
     }
 
     private Cliente findById(Integer id) {
