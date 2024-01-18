@@ -2,6 +2,7 @@ package com.edusocrates.cursoMC.serivce.impl;
 
 import com.edusocrates.cursoMC.Utils.exceptions.FileException;
 import org.apache.commons.io.FilenameUtils;
+import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,4 +45,21 @@ public class ImageService {
             throw new FileException("Erro ao transformar arquivo");
         }
     }
+
+    public BufferedImage cropSquare(BufferedImage imagem){
+        int min = (imagem.getHeight() <= imagem.getWidth()) ? imagem.getHeight() : imagem.getWidth();
+        return Scalr.crop(
+                imagem,
+                (imagem.getWidth()/2) - (min/2),
+                (imagem.getHeight()/2)-(min/2),
+                min,
+                min
+        );
+    }
+    public BufferedImage resize(BufferedImage imagem, int size){
+        return Scalr.resize(imagem,Scalr.Method.ULTRA_QUALITY,size);
+    }
+
+
+
 }

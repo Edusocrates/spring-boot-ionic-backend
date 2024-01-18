@@ -53,6 +53,9 @@ public class ClienteServiceImpl implements ClienteService {
     @Value("${img.prefix.client.profile}")
     private String prefixo;
 
+    @Value("${img.profile.size}")
+    private Integer tamanho;
+
     @Override
     public Cliente getClienteById(Integer id) {
         UserSS user = UserService.authenticated();
@@ -118,6 +121,10 @@ public class ClienteServiceImpl implements ClienteService {
             }
 
             BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+            jpgImage = imageService.cropSquare(jpgImage);
+            jpgImage = imageService.resize(jpgImage,tamanho);
+
+
             String nomeArquivo = prefixo + user.getId()+ ".jpg";
             return s3Service.uploadFile(imageService.getInputStream(jpgImage,"jpg"),nomeArquivo,"image");
     }
