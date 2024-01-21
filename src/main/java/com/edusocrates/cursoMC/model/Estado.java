@@ -1,5 +1,6 @@
 package com.edusocrates.cursoMC.model;
 
+import com.edusocrates.cursoMC.DTO.EstadoDTO;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,8 @@ public class Estado implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
+
+
 
 
     public Integer getId() {
@@ -70,4 +73,21 @@ public class Estado implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
+    public static List<EstadoDTO> entityToDTOs(List<Estado> estados) {
+        List<EstadoDTO> estadoDTOList = new ArrayList<>();
+        for (Estado estado: estados ){
+            estadoDTOList.add(entityToDTO(estado));
+        }
+        return estadoDTOList;
+
+    }
+
+    public static EstadoDTO entityToDTO(Estado estado) {
+        EstadoDTO estadoDTO = new EstadoDTO();
+        estadoDTO.setId(estado.getId());
+        estadoDTO.setNome(estado.getNome());
+        estadoDTO.setCidades(estado.getCidades());
+        return estadoDTO;
+    }
+
 }

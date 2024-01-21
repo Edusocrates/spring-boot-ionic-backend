@@ -1,9 +1,12 @@
 package com.edusocrates.cursoMC.model;
 
+import com.edusocrates.cursoMC.DTO.CidadeDTO;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -66,5 +69,24 @@ public class Cidade implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    public static List<CidadeDTO> entitiesToDTOs(List<Cidade> cidades) {
+        List<CidadeDTO> cidadeDTOs = new ArrayList<>();
+
+        for (Cidade cidade : cidades) {
+            cidadeDTOs.add(entityToDTO(cidade));
+        }
+
+        return cidadeDTOs;
+    }
+    private static CidadeDTO entityToDTO(Cidade cidade) {
+        CidadeDTO cidadeDTO = new CidadeDTO();
+        cidadeDTO.setId(cidade.getId());
+        cidadeDTO.setNome(cidade.getNome());
+        cidadeDTO.setEstado(cidade.getEstado());
+
+
+        return cidadeDTO;
     }
 }
