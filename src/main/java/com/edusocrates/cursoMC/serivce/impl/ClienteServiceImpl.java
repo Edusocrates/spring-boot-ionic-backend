@@ -129,6 +129,20 @@ public class ClienteServiceImpl implements ClienteService {
             return s3Service.uploadFile(imageService.getInputStream(jpgImage,"jpg"),nomeArquivo,"image");
     }
 
+    @Override
+    public Cliente consultaClientePorEmail(String email) {
+        UserSS user = UserService.authenticated();
+        if(user == null || !user.hasHole(Perfil.ADMIN) && !email.equals(user.getUsername())){
+            throw new AuthorizationException("Acesso negado ao usuario!");
+        }
+
+        Cliente cliente = repository.buscarClientePorEmail(email);
+        if(cliente == null){
+            throw new ObjectNotFoundException("Cliente não encontrado na base!");
+        }
+        return cliente;
+    }
+
     private Cliente findById(Integer id) {
         return repository.findById(id)
                 .orElseThrow(()->

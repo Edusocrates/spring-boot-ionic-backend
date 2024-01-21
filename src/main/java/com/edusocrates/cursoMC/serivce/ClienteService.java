@@ -20,4 +20,6 @@ public interface ClienteService {
     ClienteDTO insertCliente(CreateClienteDTO createClienteDTO);
 
     URI uploadFotoPerfil(MultipartFile multipartFile);
+
+    Cliente consultaClientePorEmail(String email);
 }

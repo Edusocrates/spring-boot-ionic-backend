@@ -28,6 +28,12 @@ public class ClienteController {
         return ResponseEntity.ok(cliente);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<Cliente> consultaClientePorEmail(@RequestParam(value = "value") String email) {
+        Cliente cliente = service.consultaClientePorEmail(email);
+        return ResponseEntity.ok(cliente);
+    }
+
     @GetMapping("/page")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Page<ClienteDTO>> getAllCategoriasWithPagination(@RequestParam(name = "page", defaultValue = "0") Integer page,
